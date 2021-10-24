@@ -4,7 +4,7 @@ import 'package:temp_app/utils/check_connection.dart';
 
 import 'base_state.dart';
 
-simpleApiCall<STATE extends BasicState>(
+simpleApiCall<STATE extends BlocState>(
   BlocBase blocBaseOwner,
   Function apiCall, {
   Function(dynamic) onSuccess,

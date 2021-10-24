@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:temp_app/bloc/global/global_bloc.dart';
 import 'package:temp_app/ui/pages/temp_login_page.dart';
 import 'package:temp_app/ui/pages/temp_logout_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'generated/l10n.dart';
 
 GlobalBloc globalBloc(context) => BlocProvider.of<GlobalBloc>(context);
@@ -37,6 +38,7 @@ class _AppState extends State<App> {
         bloc: _globalBloc,
         builder: (context, state) {
           return MaterialApp(
+            theme: ThemeData.dark(),
             localizationsDelegates: [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -44,7 +46,8 @@ class _AppState extends State<App> {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: S.delegate.supportedLocales,
-            locale: Locale('en', ''),//TODO: change locale if need
+            locale: Locale('en', ''),
+            //TODO: change locale if need
             home: _buildPage(state),
           );
         },

@@ -1,6 +1,6 @@
 part of 'temp_logout_cubit.dart';
 
-class TempLogoutState implements BasicState {
+class TempLogoutState implements BlocState {
   bool isSuccessful;
   bool isLoading;
   Exception error;
