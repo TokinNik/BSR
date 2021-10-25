@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:temp_app/utils/logger.dart';
 
 class DraggableWithFeedback<T> extends StatefulWidget {
   final DraggableController<T> controller;
@@ -55,8 +54,6 @@ class _DraggableWithFeedbackState<T> extends State<DraggableWithFeedback> {
 
   void onTargetCallbackHandler(bool t, T data) {
     this.isOnTarget = t;
-    logD("onTargetCallbackHandler: $isOnTarget");
-    logD("onTargetCallbackHandler: $feedbackController");
     this.feedbackController.updateFeedback(this.isOnTarget);
   }
 
@@ -97,10 +94,7 @@ class FeedbackController {
   Function(bool) feedbackNeedsUpdateCallback;
 
   void updateFeedback(bool isOnTarget) {
-    logD("updateFeedback: $isOnTarget ");
-    logD("!!!!!!updateFeedback: ${feedbackNeedsUpdateCallback != null} ");
     if (feedbackNeedsUpdateCallback != null) {
-    logD("updateFeedback____: $isOnTarget");
       feedbackNeedsUpdateCallback(isOnTarget);
     }
   }
@@ -125,29 +119,24 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
   @override
   void initState() {
     super.initState();
-    logD("INIT");
     this.isOnTarget = false;
     this.widget.controller.feedbackNeedsUpdateCallback =
         feedbackNeedsUpdateCallbackHandler;
-    logD("INIT  ${widget.controller.feedbackNeedsUpdateCallback != null}");
   }
 
   void feedbackNeedsUpdateCallbackHandler(bool t) {
     setState(() {
-      logD("feedbackNeedsUpdateCallbackHandler: $t");
       this.isOnTarget = t;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    logD("BUILD FEEDBACK $isOnTarget");
     return widget?.childBuilder?.call(context, isOnTarget);
   }
 
   @override
   void dispose() {
-    logD("DISPOSE");
     this.widget.controller.feedbackNeedsUpdateCallback = null;
     super.dispose();
   }
@@ -159,7 +148,6 @@ class DraggableController<T> {
   DraggableController();
 
   void onTarget(bool onTarget, T data) {
-    logD("ON TARGET $onTarget");
     if (_targetUpdateCallbacks != null) {
       _targetUpdateCallbacks.forEach((f) => f(onTarget, data));
     }
