@@ -240,7 +240,7 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
               type: MaterialType.transparency,
               child: Center(
                 child: Text(
-                  data.cellType.getSize().toString(),
+                  "${data.cellType.getSize().toString()} (${data.id})",
                 ),
               ),
             ),
@@ -282,13 +282,14 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
               );
             },
             onAccept: (data) {
-              logD("onAccept: $data");
+              logD("onAccept: $isMoveStarted $data");
               setState(() {
                 if (isMoveStarted) {
                   setupModule.removeData(data);
                 }
                 var dataSetupSuccess = setupModule.setData(x, y, data);
                 if (!dataSetupSuccess) {
+                  logD("dataSetupSuccess: $dataSetupSuccess");
                   data.switchDirection();
                   dataSetupSuccess = setupModule.setData(x, y, data);
                 }
@@ -296,7 +297,10 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
             },
             onLeave: (data) {
               logD("onLeave: $data");
+              setState(() {
               draggableController.onTarget(false, data);
+
+              });
             },
             onMove: (details) {
               logD("onMove: $details");

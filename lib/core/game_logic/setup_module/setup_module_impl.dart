@@ -34,6 +34,7 @@ class SetupModuleImpl extends SetupModule {
     int y,
     Cell value,
   ) {
+    logD("SET_DATA $x $y $value ${total[2][4]}");
     if (value.direction == null || value.direction == Axis.vertical) {
       var anchor = 0;
       if (_checkVertical(x, y, value, value.anchor)) {
@@ -79,6 +80,7 @@ class SetupModuleImpl extends SetupModule {
 
   @override
   removeData(Cell value) {
+    logD("REMOVE_DATA $value ${total[2][4]}");
     if (value.x >= 0 && value.y >= 0) {
       total.forEach((row) {
         row.forEach((cell) {
@@ -93,6 +95,7 @@ class SetupModuleImpl extends SetupModule {
         });
       });
     }
+    logD("REMOVE_DATA $value ${total[2][4]}");
   }
 
   @override
@@ -165,10 +168,12 @@ class SetupModuleImpl extends SetupModule {
   }
 
   _setDataVertical(int x, int y, Cell value, int anchor) {
+    logD("SET_DATA_V $x $y $value");
     _setDataRight(x, y - anchor, value);
   }
 
   _setDataHorizontal(int x, int y, Cell value, int anchor) {
+    logD("SET_DATA_H $x $y $value");
     _setDataBottom(x - anchor, y, value);
   }
 
@@ -199,6 +204,7 @@ class SetupModuleImpl extends SetupModule {
   }
 
   _setDataRight(int x, int y, Cell value) {
+    logD("SET_DATA_V_R $x $y $value ${total[2][4]}");
     for (var i = 0; i < value.cellType.getSize(); i++) {
       var posY = y + i;
       if (posY < maxY) {
