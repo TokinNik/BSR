@@ -24,7 +24,7 @@ class DraggableTestPage extends BasePage {
 
 class _DraggableTestPageState extends State<BaseStatefulWidget> {
   static const double DEF_CELL_SIZE = 50;
-  static const double DEF_CELL_PADDING = 8;
+  static const double DEF_CELL_PADDING = 1;
   static const int DEFAULT_DRAG_ID = -2;
 
   final SetupModule setupModule;
@@ -282,9 +282,10 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
               );
             },
             onAccept: (data) {
-              logD("onAccept: $isMoveStarted $data");
+              logD("onAccept: $isMoveStarted $dragStartedId $data");
               setState(() {
                 if (isMoveStarted) {
+                  data.id = dragStartedId;
                   setupModule.removeData(data);
                 }
                 var dataSetupSuccess = setupModule.setData(x, y, data);
@@ -308,6 +309,7 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
             onWillAccept: (data) {
               logD("onWillAccept: $data");
               setState(() {
+                data.id = dragStartedId;
                 draggableController.onTarget(
                     setupModule.checkPosition(x, y, data), data);
               });

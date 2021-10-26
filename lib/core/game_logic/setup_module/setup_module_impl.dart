@@ -34,7 +34,7 @@ class SetupModuleImpl extends SetupModule {
     int y,
     Cell value,
   ) {
-    logD("SET_DATA $x $y $value ${total[2][4]}");
+    logD("SET_DATA $x $y $_counter $value");
     if (value.direction == null || value.direction == Axis.vertical) {
       var anchor = 0;
       if (_checkVertical(x, y, value, value.anchor)) {
@@ -43,7 +43,7 @@ class SetupModuleImpl extends SetupModule {
         _setDataVertical(x, y, value, value.anchor);
         return true;
       }
-      while (anchor <= maxX) {
+      while (anchor <= value.cellType.getSize()) {
         if (_checkVertical(x, y, value, anchor)) {
           _counter++;
           value.direction = Axis.vertical;
@@ -63,7 +63,7 @@ class SetupModuleImpl extends SetupModule {
         _setDataHorizontal(x, y, value, value.anchor);
         return true;
       }
-      while (anchor <= maxY) {
+      while (anchor <= value.cellType.getSize()) {
         if (_checkHorizontal(x, y, value, anchor)) {
           _counter++;
           value.direction = Axis.horizontal;
@@ -80,7 +80,7 @@ class SetupModuleImpl extends SetupModule {
 
   @override
   removeData(Cell value) {
-    logD("REMOVE_DATA $value ${total[2][4]}");
+    logD("REMOVE_DATA $_counter $value ");
     if (value.x >= 0 && value.y >= 0) {
       total.forEach((row) {
         row.forEach((cell) {
@@ -117,35 +117,33 @@ class SetupModuleImpl extends SetupModule {
   @override
   bool checkPosition(int x, int y, Cell cell) {
     logD("!@# V ${cell.direction == null || cell.direction == Axis.vertical}");
-    if (cell.direction == null || cell.direction == Axis.vertical) {
-      var anchor = 0;
-      if (_checkVertical(x, y, cell, cell.anchor)) {
+    cell.direction = Axis.vertical;
+    var anchor = 0;
+    if (_checkVertical(x, y, cell, cell.anchor)) {
+      return true;
+    }
+    logD("!@# V1");
+    while (anchor <= cell.cellType.getSize()) {
+      if (_checkVertical(x, y, cell, anchor)) {
         return true;
-      }
-      logD("!@# V1");
-      while (anchor <= maxX) {
-        if (_checkVertical(x, y, cell, anchor)) {
-          return true;
-        } else {
-          anchor++;
-        }
+      } else {
+        anchor++;
       }
     }
     logD("!@# V2");
     logD(
         "!@# H ${cell.direction == null || cell.direction == Axis.horizontal}");
-    if (cell.direction == null || cell.direction == Axis.horizontal) {
-      var anchor = 0;
-      if (_checkHorizontal(x, y, cell, cell.anchor)) {
+    cell.switchDirection();
+    anchor = 0;
+    if (_checkHorizontal(x, y, cell, cell.anchor)) {
+      return true;
+    }
+    logD("!@# H1");
+    while (anchor <= cell.cellType.getSize()) {
+      if (_checkHorizontal(x, y, cell, anchor)) {
         return true;
-      }
-      logD("!@# H1");
-      while (anchor <= maxY) {
-        if (_checkHorizontal(x, y, cell, anchor)) {
-          return true;
-        } else {
-          anchor++;
-        }
+      } else {
+        anchor++;
       }
     }
     logD("!@# H2");
@@ -158,13 +156,19 @@ class SetupModuleImpl extends SetupModule {
     Cell cell,
     int anchor,
   ) {
-    return _checkAllEmptyLeft(x, y, anchor + 1, cell) &&
+    var left = _checkAllEmptyLeft(x, y, anchor + 1, cell);
+    var right =
         _checkAllEmptyRight(x, y, cell.cellType.getSize() - anchor, cell);
+    logD("CHECK_VERT $left $right");
+    return left && right;
   }
 
   bool _checkHorizontal(int x, int y, Cell cell, int anchor) {
-    return _checkAllEmptyTop(x, y, anchor + 1, cell) &&
+    var top = _checkAllEmptyTop(x, y, anchor + 1, cell);
+    var bottom =
         _checkAllEmptyBottom(x, y, cell.cellType.getSize() - anchor, cell);
+    logD("CHECK_HORI $top $bottom");
+    return top && bottom;
   }
 
   _setDataVertical(int x, int y, Cell value, int anchor) {
@@ -204,7 +208,7 @@ class SetupModuleImpl extends SetupModule {
   }
 
   _setDataRight(int x, int y, Cell value) {
-    logD("SET_DATA_V_R $x $y $value ${total[2][4]}");
+    logD("SET_DATA_V_R $x $y $_counter");
     for (var i = 0; i < value.cellType.getSize(); i++) {
       var posY = y + i;
       if (posY < maxY) {
@@ -273,7 +277,8 @@ class SetupModuleImpl extends SetupModule {
       return true;
     }
     var result = true;
-    logD("CHECK_ID ${total.map((e) => e.map((e) => "${e.x}:${e.y} = ${e.id}").toList()).toList()}");
+    logD(
+        "CHECK_ID ${total.map((e) => e.map((e) => "${e.x}:${e.y} = ${e.id}").toList()).toList()}");
     SetupModule.CELLS_AROUND_X.forEachIndexed((px, i) {
       var posX = x + px;
       var posY = y + SetupModule.CELLS_AROUND_Y[i];
@@ -289,33 +294,39 @@ class SetupModuleImpl extends SetupModule {
         }
       }
     });
+    logD("CHECK_ID_R $result");
     return result;
   }
 
   bool _checkAllEmptyRight(int x, int y, int length, Cell cell) {
+    logD("CHECK_R $x $y $length ${y + length} > $maxY");
     if (y + length > maxY) {
+      logD("CHECK_R_1");
       return false;
     }
     for (var i = y; i < y + length; i++) {
-      if (total[x][i].cellType != CellType.EMPTY ||
+      if (total[x][i].cellType == CellType.FILL_M ||
           !_checkAllEmptyAround(
             x,
             i,
             total[x][i].id,
             cell,
           )) {
+        logD("CHECK_R_2");
         return false;
       }
     }
+    logD("CHECK_R_3");
     return true;
   }
 
   bool _checkAllEmptyLeft(int x, int y, int length, Cell cell) {
+    logD("CHECK_L $x $y $length ${y - length + 1}");
     if (y - length + 1 < 0) {
       return false;
     }
     for (var i = y; i > y - length; i--) {
-      if (total[x][i].cellType != CellType.EMPTY ||
+      if (total[x][i].cellType == CellType.FILL_M ||
           !_checkAllEmptyAround(
             x,
             i,
@@ -329,20 +340,24 @@ class SetupModuleImpl extends SetupModule {
   }
 
   bool _checkAllEmptyTop(int x, int y, int length, Cell cell) {
+    logD("CHECK_T $x $y $length ${x - length + 1}");
     if (x - length + 1 < 0) {
+      logD("CHECK_T_1");
       return false;
     }
     for (var i = x; i > x - length; i--) {
-      if (total[x][i].cellType != CellType.EMPTY ||
+      if (total[i][y].cellType == CellType.FILL_M ||
           !_checkAllEmptyAround(
             i,
             y,
             total[i][y].id,
             cell,
           )) {
+        logD("CHECK_T_2");
         return false;
       }
     }
+    logD("CHECK_T_3");
     return true;
   }
 
@@ -351,7 +366,7 @@ class SetupModuleImpl extends SetupModule {
       return false;
     }
     for (var i = x; i < x + lenght; i++) {
-      if (total[x][i].cellType != CellType.EMPTY ||
+      if (total[i][y].cellType == CellType.FILL_M ||
           !_checkAllEmptyAround(
             i,
             y,
