@@ -24,7 +24,7 @@ class Cell {
     @required this.unitScheme,
   });
 
-  bool get canSkipCheck => unitScheme.isCrossing && unitScheme.size > 0;
+  bool get canSkipCheck => unitScheme.isCrossing && unitScheme.isNotEmpty;
 
   switchDirection() {
     if (direction != null) {

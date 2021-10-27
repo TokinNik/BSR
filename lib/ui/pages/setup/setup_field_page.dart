@@ -26,7 +26,7 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
   static const double DEF_CELL_PADDING = 1;
   static const int DEFAULT_DRAG_ID = -2;
 
-  var cellSize = DEF_CELL_SIZE;
+  var cellSize = DEF_CELL_SIZE;//todo move to GameSettings?
 
   final SetupModule setupModule;
 
@@ -314,7 +314,7 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
                 draggableController.onTarget(
                     setupModule.checkPosition(x, y, data), data);
               });
-              var result = data.unitScheme.size > 0;
+              var result = data.unitScheme.isNotEmpty;
               return result;
             },
             onAcceptWithDetails: (details) {

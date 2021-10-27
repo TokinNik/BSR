@@ -8,8 +8,8 @@ import '../game_settings.dart';
 
 class SetupModuleImpl extends SetupModule {
   SetupModuleImpl({
-    int maxX,
-    int maxY,
+    int maxX = SetupModule.DEF_FIELD_SIZE,
+    int maxY = SetupModule.DEF_FIELD_SIZE,
     @required UnitSettings unitSettings,
   }) : super(
           maxX: maxX,
@@ -310,7 +310,7 @@ class SetupModuleImpl extends SetupModule {
   }
 
   bool _checkAllEmptyAround(int x, int y, int id, Cell cell) {
-    if (cell.unitScheme.isCrossing && cell.unitScheme.size > 0) {
+    if (cell.unitScheme.isCrossing && cell.unitScheme.isNotEmpty) {
       return true;
     }
     var result = true;

@@ -88,6 +88,8 @@ class UnitScheme {
 
   bool get isMaxCountOnField => countOnField >= maxCount;
 
+  bool get isNotEmpty => size > 0;
+
   UnitScheme({
     @required this.localId,
     @required this.size,
