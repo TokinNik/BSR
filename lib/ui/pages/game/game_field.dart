@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:temp_app/core/game_logic/cell.dart';
 import 'package:temp_app/core/game_logic/game_logic.dart';
+import 'package:temp_app/core/game_logic/game_module.dart';
 import 'package:temp_app/ui/base/base_page.dart';
+import 'package:temp_app/utils/logger.dart';
 
 class GameField extends BasePage {
   GameField(GameLogic gameLogic, {Key key})
@@ -24,8 +26,37 @@ class _GameFieldState extends State<BaseStatefulWidget> {
   bool isMainField = true;
 
   List<List<Cell>> get getSourceField => isMainField
-      ? gameLogic.gameModule.mainField
-      : gameLogic.gameModule.enemyField;
+      ? gameLogic.gameModule.currentPlayer.mainField
+      : gameLogic.gameModule.currentEnemy.mainField;
+
+  onGameGsateChangedListener(GameState gameState){
+    logD("NEW_STATE: $gameState  ${gameLogic.gameModule.currentPlayerId}  ${gameLogic.gameModule.currentEnemyId}");
+    setState(() {
+      switch(gameState){
+        case GameState.START:
+          // TODO: Handle this case.
+          break;
+        case GameState.TURN:
+          // TODO: Handle this case.
+          break;
+        case GameState.CHECK:
+          // TODO: Handle this case.
+          break;
+        case GameState.SWITCH:
+          // TODO: Handle this case.
+          break;
+        case GameState.END:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    gameLogic.gameModule.onGameStateChanged = onGameGsateChangedListener;
+  }
 
   @override
   Widget build(BuildContext context) {
