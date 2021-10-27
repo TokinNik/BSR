@@ -9,7 +9,6 @@ import 'package:temp_app/ui/pages/setup/setup_page.dart';
 import 'package:temp_app/ui/pages/temp_next_rout_page.dart';
 import 'package:temp_app/utils/extensions.dart';
 
-import 'draggable_test.dart';
 import 'dropdown_test.dart';
 
 class TempLoginPage extends BasePage {

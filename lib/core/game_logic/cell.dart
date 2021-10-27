@@ -1,66 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
-enum CellType {
-  EMPTY,
-  FILL_1,
-  FILL_2,
-  FILL_3,
-  FILL_4,
-  FILL_M,
-}
-
-extension CellTypeExtension on CellType {
-  int getSize() {
-    var size = 0;
-    switch (this) {
-      case CellType.EMPTY:
-        size = 0;
-        break;
-      case CellType.FILL_1:
-        size = 1;
-        break;
-      case CellType.FILL_2:
-        size = 2;
-        break;
-      case CellType.FILL_3:
-        size = 3;
-        break;
-      case CellType.FILL_4:
-        size = 4;
-        break;
-      case CellType.FILL_M:
-        size = 1;
-        break;
-    }
-    return size;
-  }
-
-  Color getColor() {
-    var color = Colors.amber;
-    switch (this) {
-      case CellType.EMPTY:
-        color = Colors.green;
-        break;
-      case CellType.FILL_1:
-        color = Colors.blueGrey;
-        break;
-      case CellType.FILL_2:
-        color = Colors.blue;
-        break;
-      case CellType.FILL_3:
-        color = Colors.deepPurple;
-        break;
-      case CellType.FILL_4:
-        color = Colors.orange;
-        break;
-      case CellType.FILL_M:
-        color = Colors.pink;
-        break;
-    }
-    return color;
-  }
-}
+import 'package:temp_app/core/game_logic/game_settings.dart';
 
 class Cell {
   int x;
@@ -70,7 +10,7 @@ class Cell {
   Axis direction;
   int anchor;
   int subId;
-  CellType cellType;
+  UnitScheme unitScheme;
   bool isErrorHighlighted = false;
 
   Cell({
@@ -81,8 +21,10 @@ class Cell {
     this.direction,
     this.anchor = 0,
     this.subId = 0,
-    this.cellType = CellType.EMPTY,
+    @required this.unitScheme,
   });
+
+  bool get canSkipCheck => unitScheme.isCrossing && unitScheme.size > 0;
 
   switchDirection() {
     if (direction != null) {
@@ -108,12 +50,12 @@ class Cell {
       direction: direction ?? this.direction,
       anchor: anchor ?? this.anchor,
       subId: subId ?? this.subId,
-      cellType: cellType ?? this.cellType,
+      unitScheme: cellType ?? this.unitScheme,
     );
   }
 
   @override
   String toString() {
-    return 'Cell{cellType: $cellType, x: $x, y: $y, data: $unitsAround, id: $id, direction: $direction, anchor: $anchor, subId: $subId}';
+    return 'Cell{cellType: $unitScheme, x: $x, y: $y, data: $unitsAround, id: $id, direction: $direction, anchor: $anchor, subId: $subId}';
   }
 }

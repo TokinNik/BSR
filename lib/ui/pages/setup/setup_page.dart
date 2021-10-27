@@ -6,7 +6,8 @@ import 'package:temp_app/core/game_logic/game_module.dart';
 import 'package:temp_app/core/game_logic/game_settings.dart';
 import 'package:temp_app/core/game_logic/setup_module/setup_module_impl.dart';
 import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/ui/pages/draggable_test.dart';
+
+import '../setup_field_page.dart';
 
 SetupCubit setupCubit(context) => BlocProvider.of<SetupCubit>(context);
 
@@ -34,15 +35,43 @@ class _SetupState extends BaseState<SetupState> {
   @override
   void init() {
     super.initialBlocListener(setupCubit(context).stream);
+    var unitSettings = UnitSettings.defaultUnitSettings();
     gameLogic = GameLogic(
-      setupModule: SetupModuleImpl(maxX: 11, maxY: 11),
+      setupModule: SetupModuleImpl(
+        maxX: 11,
+        maxY: 11,
+        unitSettings: unitSettings,
+      ),
       gameModule: GameModule(),
-      gameSettings: GameSettings(),
+      gameSettings: GameSettings(
+        unitSettings: unitSettings,
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SetupFieldPage(gameLogic.setupModule);
+    return Material(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SetupFieldPage(
+            gameLogic.setupModule,
+          ),
+          SizedBox(height: 24),
+          TextButton(
+            onPressed: () {
+              if (gameLogic.setupModule.isSetupMayDone) {
+                //todo navigation
+                Navigator.of(context).pop();
+              } else {
+                //todo show hint
+              }
+            },
+            child: Text("Finish setup"),
+          ),
+        ],
+      ),
+    );
   }
 }
