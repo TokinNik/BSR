@@ -5,6 +5,7 @@ import 'package:temp_app/app.dart';
 import 'package:temp_app/bloc/global/global_bloc.dart';
 import 'package:temp_app/generated/l10n.dart';
 import 'package:temp_app/ui/base/base_page.dart';
+import 'package:temp_app/ui/pages/setup/setup_page.dart';
 import 'package:temp_app/ui/pages/temp_next_rout_page.dart';
 import 'package:temp_app/utils/extensions.dart';
 
@@ -67,7 +68,7 @@ class _TempLoginPageState extends State<BaseStatefulWidget> {
             SizedBox(height: 24),
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(DraggableTestPage.route());
+                Navigator.of(context).push(SetupPage.route());
               },
               child: Text("Draggable test"),
             ),

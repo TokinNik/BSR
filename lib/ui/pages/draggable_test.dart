@@ -2,34 +2,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:temp_app/core/game_logic/cell.dart';
 import 'package:temp_app/core/game_logic/setup_module/setup_module.dart';
-import 'package:temp_app/core/game_logic/setup_module/setup_module_impl.dart';
 import 'package:temp_app/ui/base/base_page.dart';
 import 'package:temp_app/ui/widgets/draggable_with_feedback.dart';
 import 'package:temp_app/utils/extensions.dart';
 import 'package:temp_app/utils/logger.dart';
 
-class DraggableTestPage extends BasePage {
-  static route() {
-    return MaterialPageRoute(builder: (context) => DraggableTestPage());
+class SetupFieldPage extends BasePage {
+  static route(SetupModule setupModule) {
+    return MaterialPageRoute(builder: (context) => SetupFieldPage(setupModule));
   }
 
-  DraggableTestPage({Key key})
+  final SetupModule setupModule;
+
+  SetupFieldPage(this.setupModule, {Key key})
       : super(
           key: key,
-          state: _DraggableTestPageState(
-            setupModule: SetupModuleImpl(maxX: 5, maxY: 5),
+          state: _SetupFieldPageState(
+            setupModule: setupModule,
           ),
         );
 }
 
-class _DraggableTestPageState extends State<BaseStatefulWidget> {
-  static const double DEF_CELL_SIZE = 50;
+class _SetupFieldPageState extends State<BaseStatefulWidget> {
+  static const double DEF_CELL_SIZE = 30;
   static const double DEF_CELL_PADDING = 1;
   static const int DEFAULT_DRAG_ID = -2;
 
+  var cellSize = DEF_CELL_SIZE;
+
   final SetupModule setupModule;
 
-  _DraggableTestPageState({
+  _SetupFieldPageState({
     @required this.setupModule,
   });
 
@@ -53,6 +56,7 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    cellSize = MediaQuery.of(context).size.width * 0.07; //todo add resizer
     return Material(
       child: Container(
         child: Column(
@@ -141,8 +145,8 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
             ? null
             : (c, isOnTarget) => Container(
                   color: Colors.amber.withAlpha(50),
-                  width: DEF_CELL_SIZE,
-                  height: DEF_CELL_SIZE,
+                  width: cellSize,
+                  height: cellSize,
                   child: Center(
                     child: Text(
                       "${data.cellType.getSize()}(${data.id})[${data.anchor}]",
@@ -153,12 +157,12 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
             (isDragStarted && dragStartedId == data.id && !isMainBox)
                 ? SizedBox.shrink()
                 : Container(
-                    color: Colors.amber,
-                    width: DEF_CELL_SIZE,
-                    height: DEF_CELL_SIZE,
+                    color: data.cellType.getColor(),
+                    width: cellSize,
+                    height: cellSize,
                     child: Center(
                       child: Text(
-                        "${data.cellType.getSize()}(${data.id})[${data.anchor}]",
+                        "(${data.id})",
                       ),
                     ),
                   ),
@@ -170,12 +174,12 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
           return Offset(
             data.direction == Axis.vertical
                 ? pos.dx +
-                    (DEF_CELL_SIZE + DEF_CELL_PADDING + DEF_CELL_PADDING) *
+                    (cellSize + DEF_CELL_PADDING + DEF_CELL_PADDING) *
                         data.subId
                 : pos.dx,
             data.direction == Axis.horizontal
                 ? pos.dy +
-                    (DEF_CELL_SIZE + DEF_CELL_PADDING + DEF_CELL_PADDING) *
+                    (cellSize + DEF_CELL_PADDING + DEF_CELL_PADDING) *
                         data.subId
                 : pos.dy,
           );
@@ -233,14 +237,14 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
         Padding(
           padding: const EdgeInsets.all(DEF_CELL_PADDING),
           child: Container(
-            color: (isOnTarget ? Colors.amber : Colors.red).withAlpha(100),
-            width: DEF_CELL_SIZE,
-            height: DEF_CELL_SIZE,
+            color: (isOnTarget ? data.cellType.getColor() : Colors.red).withAlpha(100),
+            width: cellSize,
+            height: cellSize,
             child: Material(
               type: MaterialType.transparency,
               child: Center(
                 child: Text(
-                  "${data.cellType.getSize().toString()} (${data.id})",
+                  "(${data.id})",
                 ),
               ),
             ),
@@ -272,11 +276,11 @@ class _DraggableTestPageState extends State<BaseStatefulWidget> {
             builder: (c, candidateData, rejectedData) {
               return Container(
                 color: Colors.green,
-                width: DEF_CELL_SIZE,
-                height: DEF_CELL_SIZE,
+                width: cellSize,
+                height: cellSize,
                 child: Center(
                   child: Text(
-                    "${setupModule.getCellAtCoord(x, y).unitsAround.toString()}(${setupModule.getCellAtCoord(x, y).id})",
+                    "${setupModule.getCellAtCoord(x, y).unitsAround.toString()}",
                   ),
                 ),
               );

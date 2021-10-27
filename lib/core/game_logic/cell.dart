@@ -35,6 +35,31 @@ extension CellTypeExtension on CellType {
     }
     return size;
   }
+
+  Color getColor() {
+    var color = Colors.amber;
+    switch (this) {
+      case CellType.EMPTY:
+        color = Colors.green;
+        break;
+      case CellType.FILL_1:
+        color = Colors.blueGrey;
+        break;
+      case CellType.FILL_2:
+        color = Colors.blue;
+        break;
+      case CellType.FILL_3:
+        color = Colors.deepPurple;
+        break;
+      case CellType.FILL_4:
+        color = Colors.orange;
+        break;
+      case CellType.FILL_M:
+        color = Colors.pink;
+        break;
+    }
+    return color;
+  }
 }
 
 class Cell {
