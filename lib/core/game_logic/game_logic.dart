@@ -40,10 +40,12 @@ class GameLogic {
         0, 2, Cell(unitScheme: gameSettings.unitSettings.unitsScheme[0]));
     tempSetup.setData(
         4, 2, Cell(unitScheme: gameSettings.unitSettings.unitsScheme[0]));
+    tempSetup.setData(
+        6, 2, Cell(unitScheme: gameSettings.unitSettings.unitsScheme[4]));
 
     gameModule.players.add(Player(
       mainField: tempSetup.field,
-      playerId: 0,
+      playerId: 1,
     ));
   }
 }

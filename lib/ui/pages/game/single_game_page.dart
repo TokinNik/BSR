@@ -41,14 +41,7 @@ class _SingleGameState extends BaseState<SingleGameState> {
     return Material(
       child: Center(
         child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("SingleGamePage"),
-              SizedBox(height: 24),
-              GameField(gameLogic),
-            ],
-          ),
+          child: GameField(gameLogic),
         ),
       ),
     );

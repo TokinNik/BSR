@@ -25,14 +25,19 @@ class _GameFieldState extends State<BaseStatefulWidget> {
 
   bool isMainField = true;
 
+  bool isStartVisible = true;
+  bool isEndVisible = false;
+  bool isSwitchVisible = false;
+
   List<List<Cell>> get getSourceField => isMainField
       ? gameLogic.gameModule.currentPlayer.mainField
       : gameLogic.gameModule.currentEnemy.mainField;
 
-  onGameGsateChangedListener(GameState gameState){
-    logD("NEW_STATE: $gameState  ${gameLogic.gameModule.currentPlayerId}  ${gameLogic.gameModule.currentEnemyId}");
+  onGameGsateChangedListener(GameState gameState) {
+    logD(
+        "NEW_STATE: $gameState  ${gameLogic.gameModule.currentPlayerId}  ${gameLogic.gameModule.currentEnemyId}");
     setState(() {
-      switch(gameState){
+      switch (gameState) {
         case GameState.START:
           // TODO: Handle this case.
           break;
@@ -40,13 +45,20 @@ class _GameFieldState extends State<BaseStatefulWidget> {
           // TODO: Handle this case.
           break;
         case GameState.CHECK:
+          isStartVisible = false;
+          isEndVisible = false;
+          isSwitchVisible = false;
+          break;
+        case GameState.TURN_RESULT:
           // TODO: Handle this case.
           break;
         case GameState.SWITCH:
-          // TODO: Handle this case.
+          isSwitchVisible = true;
           break;
         case GameState.END:
-          // TODO: Handle this case.
+          isStartVisible = false;
+          isEndVisible = true;
+          isSwitchVisible = false;
           break;
       }
     });
@@ -60,6 +72,20 @@ class _GameFieldState extends State<BaseStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        _buildField(),
+        isStartVisible ? _buildStartWidget() : SizedBox.shrink(),
+        isSwitchVisible ? _buildSwitchWidget() : SizedBox.shrink(),
+        isEndVisible ? _buildEndWidget() : SizedBox.shrink(),
+        gameLogic.gameModule.gameState == GameState.CHECK
+            ? _buildCheckWidget()
+            : SizedBox.shrink(),
+      ],
+    );
+  }
+
+  Widget _buildField() {
     cellSize = MediaQuery.of(context).size.width * 0.07; //todo add resizer
     return Container(
       child: Column(
@@ -125,6 +151,72 @@ class _GameFieldState extends State<BaseStatefulWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildStartWidget() {
+    return GestureDetector(
+      onTap: () {
+        gameLogic.gameModule.startGame();
+        setState(() {
+          isStartVisible = false;
+        });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey.withAlpha(150),
+        child: Center(child: Text("Tap to Start")),
+      ),
+    );
+  }
+
+  Widget _buildSwitchWidget() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSwitchVisible = false;
+        });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey.withAlpha(150),
+        child: Center(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Result: ${gameLogic.gameModule.lastTurnResult.getFormattedString()}"),
+            SizedBox(height: 24),
+            Text("Tap to Switch"),
+          ],
+        )),
+      ),
+    );
+  }
+
+  Widget _buildEndWidget() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isEndVisible = false;
+          Navigator.of(context).pop(); //todo navigate to menu or game result
+        });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey.withAlpha(150),
+        child: Center(child: Text("Tap to End")),
+      ),
+    );
+  }
+
+  Widget _buildCheckWidget() {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      color: Colors.grey.withAlpha(150),
+      child: Center(child: Text("Check in progress")),
     );
   }
 }

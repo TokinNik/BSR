@@ -23,6 +23,8 @@ class GameModule {
 
   Function(GameState) onGameStateChanged;
 
+  AttackResult lastTurnResult;
+
   Player get currentPlayer => players[_currentPlayerId];
 
   Player get currentEnemy => players[_currentEnemyId];
@@ -46,6 +48,8 @@ class GameModule {
   ) {
     onGameStateChanged?.call(GameState.CHECK);
     var result = currentEnemy.attackOnCell(x, y);
+    lastTurnResult = result;
+    onGameStateChanged?.call(GameState.TURN_RESULT);
     logD("ATTACK_RESULT: $result");
     if (result.resultType == ResultType.EMPTY) {
       currentPlayer.turnCount--;
@@ -62,7 +66,10 @@ class GameModule {
       if (result.resultValue > 0) {
         if (currentEnemy.checkPlayerLoose()) {
           var hasAlivePlayers = players.firstWhereOrNull(
-                  (e) => e.playerId != currentPlayerId && !e.isLoose) !=
+                  (e) {
+                    logD("|${e.playerId}  ${e.isLoose}|");
+                    return e.playerId != currentPlayerId && !e.isLoose;
+                  }) !=
               null;
           if (hasAlivePlayers) {
             onGameStateChanged?.call(GameState.TURN);
@@ -91,22 +98,34 @@ class GameModule {
   }
 
   _switchPlayer() {
-    var newPlayerId =
-        _currentPlayerId >= players.length - 1 ? 0 : _currentPlayerId + 1;
-    if (players[newPlayerId].isLoose) {
-      switchTurn(); //todo test loop problems
-    } else {
-      _currentPlayerId = newPlayerId;
+    var maxLoops = players.length;
+    var newPlayerId = _currentPlayerId;
+    while(maxLoops > 0){
+       newPlayerId =
+       newPlayerId >= players.length - 1 ? 0 : newPlayerId + 1;
+      logD("P: ${players[newPlayerId].isLoose} ${players[newPlayerId].playerId}");
+      if (players[newPlayerId].isLoose) {
+        maxLoops--;
+      } else {
+        maxLoops = 0;
+        _currentPlayerId = newPlayerId;
+      }
     }
   }
 
   _switchEnemy() {
-    var newEnemyId =
-        _currentEnemyId >= players.length - 1 ? 0 : _currentEnemyId + 1;
-    if (players[newEnemyId].isLoose) {
-      switchTurn(); //todo test loop problems
-    } else {
-      _currentEnemyId = newEnemyId;
+    var maxLoops = players.length;
+    var newEnemyId = _currentEnemyId;
+    while(maxLoops > 0){
+      newEnemyId =
+      newEnemyId >= players.length - 1 ? 0 : newEnemyId + 1;
+      logD("E: ${players[newEnemyId].isLoose} ${players[newEnemyId].playerId}");
+      if (players[newEnemyId].isLoose) {
+        maxLoops--;
+      } else {
+        maxLoops = 0;
+        _currentEnemyId = newEnemyId;
+      }
     }
   }
 }
@@ -115,6 +134,7 @@ enum GameState {
   START,
   TURN,
   CHECK,
+  TURN_RESULT,
   SWITCH,
   END,
 }
@@ -147,17 +167,20 @@ class Player {
   }
 
   bool checkPlayerLoose() {
-    var result = true;
-    mainField.forEach((row) {
-      row.forEach((cell) {
+    for (var row in mainField) {
+      logD("-----\n");
+      for (var cell in row) {
+        logD(
+            "${cell.x} ${cell.y} ${cell.unitScheme.isNotEmpty && !cell.unitScheme.isCrossing && !cell.isErrorHighlighted}");
         if (cell.unitScheme.isNotEmpty &&
             !cell.unitScheme.isCrossing &&
             !cell.isErrorHighlighted) {
           return false;
         }
-      });
-    });
-    return result;
+      }
+    }
+    isLoose = true;
+    return true;
   }
 }
 
@@ -169,6 +192,10 @@ class AttackResult {
     this.resultType,
     this.resultValue,
   });
+
+  String getFormattedString(){
+    return "${resultType == ResultType.EMPTY ? "Miss ($resultValue)" : (resultValue > 0 ? "Hit" : "Mine")}";
+  }
 
   @override
   String toString() {

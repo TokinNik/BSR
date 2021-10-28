@@ -56,6 +56,6 @@ class Cell {
 
   @override
   String toString() {
-    return 'Cell{cellType: $unitScheme, x: $x, y: $y, data: $unitsAround, id: $id, direction: $direction, anchor: $anchor, subId: $subId}';
+    return 'Cell{x: $x, y: $y, unitsAround: $unitsAround, id: $id, direction: $direction, anchor: $anchor, subId: $subId, unitScheme: $unitScheme, isErrorHighlighted: $isErrorHighlighted}';
   }
 }
