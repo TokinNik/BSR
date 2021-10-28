@@ -1,4 +1,4 @@
-import 'package:temp_app/core/dio/errors/dio_errors.dart';
+import 'package:bsr/core/dio/errors/dio_errors.dart';
 
 abstract class BlocState {
   bool isLoading;

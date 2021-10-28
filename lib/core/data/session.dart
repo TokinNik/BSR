@@ -1,4 +1,4 @@
-import 'package:temp_app/core/data/token.dart';
+import 'package:bsr/core/data/token.dart';
 
 class Session {
   Token accessToken;

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:temp_app/core/dio/errors/dio_errors.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/core/dio/errors/dio_errors.dart';
+import 'package:bsr/utils/logger.dart';
 
 class CheckErrorsInterceptor extends Interceptor {
   @override

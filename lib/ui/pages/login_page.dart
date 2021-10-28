@@ -1,33 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/app.dart';
-import 'package:temp_app/bloc/global/global_bloc.dart';
-import 'package:temp_app/bloc/temp_logout/temp_logout_cubit.dart';
-import 'package:temp_app/di/dependencies.dart';
-import 'package:temp_app/generated/l10n.dart';
-import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/app.dart';
+import 'package:bsr/bloc/global/global_bloc.dart';
+import 'package:bsr/bloc/temp_logout/temp_logout_cubit.dart';
+import 'package:bsr/di/dependencies.dart';
+import 'package:bsr/generated/l10n.dart';
+import 'package:bsr/ui/base/base_page.dart';
+import 'package:bsr/utils/logger.dart';
 
-TempLogoutCubit tempLogoutCubit(context) =>
-    BlocProvider.of<TempLogoutCubit>(context);
+LoginCubit logInCubit(context) =>
+    BlocProvider.of<LoginCubit>(context);
 
-class TempLogoutPage extends BasePage<TempLogoutCubit> {
+class LoginPage extends BasePage<LoginCubit> {
   static route() {
-    return MaterialPageRoute(builder: (context) => TempLogoutPage());
+    return MaterialPageRoute(builder: (context) => LoginPage());
   }
 
-  TempLogoutPage({Key key})
+  LoginPage({Key key})
       : super(
           key: key,
-          bloc: (context) => TempLogoutCubit(getIt.get()),
-          state: _TempLogoutPageState(),
+          bloc: (context) => LoginCubit(getIt.get()),
+          state: LoginPageState(),
         );
 }
 
-class _TempLogoutPageState extends BaseState<TempLogoutState> {
+class LoginPageState extends BaseState<LoginState> {
   @override
-  void blocListener(TempLogoutState state) {
+  void blocListener(LoginState state) {
     logD(state);
     _errorText = "";
     if (state.isSuccessful != null && state.isSuccessful) {
@@ -43,16 +43,16 @@ class _TempLogoutPageState extends BaseState<TempLogoutState> {
 
   @override
   void init() {
-    super.initialBlocListener(tempLogoutCubit(context).stream);
+    super.initialBlocListener(logInCubit(context).stream);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TempLogoutCubit, TempLogoutState>(
+    return BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Temp Logout Page"),
+          title: Text(S.current.log_in),
         ),
         body: Column(
           children: [
@@ -63,7 +63,7 @@ class _TempLogoutPageState extends BaseState<TempLogoutState> {
                     ? CircularProgressIndicator()
                     : TextButton(
                         onPressed: () {
-                          tempLogoutCubit(context).logIn();
+                          logInCubit(context).logIn();
                         },
                         child: Text(S.current.log_in),
                       ),

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.temp_app">
+    package="com.bsr">
    <application
-        android:label="temp_app"
+        android:label="bsr"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

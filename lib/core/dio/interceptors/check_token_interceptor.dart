@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:temp_app/core/dio/dio.dart';
-import 'package:temp_app/core/dio/errors/dio_errors.dart';
-import 'package:temp_app/core/servises/session_service.dart';
+import 'package:bsr/core/dio/dio.dart';
+import 'package:bsr/core/dio/errors/dio_errors.dart';
+import 'package:bsr/core/servises/session_service.dart';
 
 class CheckTokenInterceptor extends Interceptor {
   final SessionService sessionService;

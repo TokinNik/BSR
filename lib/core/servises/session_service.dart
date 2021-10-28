@@ -1,5 +1,5 @@
-import 'package:temp_app/core/data/session.dart';
-import 'package:temp_app/core/data/token.dart';
+import 'package:bsr/core/data/session.dart';
+import 'package:bsr/core/data/token.dart';
 
 abstract class SessionService {
   Future<Session> getSession();

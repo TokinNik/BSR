@@ -1,18 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'package:temp_app/bloc/base/base_api_calls.dart';
-import 'package:temp_app/bloc/base/base_state.dart';
-import 'package:temp_app/core/servises/session_service.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/bloc/base/base_api_calls.dart';
+import 'package:bsr/bloc/base/base_state.dart';
+import 'package:bsr/core/servises/session_service.dart';
+import 'package:bsr/utils/logger.dart';
 
 part 'temp_logout_state.dart';
 
-class TempLogoutCubit extends Cubit<TempLogoutState> {
-  TempLogoutCubit(this.sessionService) : super(TempLogoutState());
+class LoginCubit extends Cubit<LoginState> {
+  LoginCubit(this.sessionService) : super(LoginState());
 
   final SessionService sessionService;
 
   logIn() async {
-    simpleApiCall<TempLogoutState>(
+    simpleApiCall<LoginState>(
       this,
       sessionService.refreshToken,
       onSuccess: (result) {

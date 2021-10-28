@@ -1,5 +1,5 @@
-name: temp_app
-description: Template for other apps
+name: bsr
+description: bsr
 version: 1.0.0+1
 
 publish_to: none

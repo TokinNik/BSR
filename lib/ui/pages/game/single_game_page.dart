@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/bloc/single_game/single_game_cubit.dart';
-import 'package:temp_app/core/game_logic/game_logic.dart';
-import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/ui/pages/game/game_field.dart';
+import 'package:bsr/bloc/single_game/single_game_cubit.dart';
+import 'package:bsr/core/game_logic/game_logic.dart';
+import 'package:bsr/ui/base/base_page.dart';
+import 'package:bsr/ui/pages/game/game_field.dart';
 
 SingleGameCubit singleGameCubit(context) =>
     BlocProvider.of<SingleGameCubit>(context);

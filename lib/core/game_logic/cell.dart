@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:temp_app/core/game_logic/game_settings.dart';
+import 'package:bsr/core/game_logic/game_settings.dart';
 
 class Cell {
   int x;

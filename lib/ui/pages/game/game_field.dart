@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:temp_app/core/game_logic/cell.dart';
-import 'package:temp_app/core/game_logic/game_logic.dart';
-import 'package:temp_app/core/game_logic/game_module.dart';
-import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/core/game_logic/cell.dart';
+import 'package:bsr/core/game_logic/game_logic.dart';
+import 'package:bsr/core/game_logic/game_module.dart';
+import 'package:bsr/ui/base/base_page.dart';
+import 'package:bsr/utils/logger.dart';
 
 class GameField extends BasePage {
   GameField(GameLogic gameLogic, {Key key})

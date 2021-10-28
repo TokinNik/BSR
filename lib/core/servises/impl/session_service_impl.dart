@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:temp_app/core/data/session.dart';
-import 'package:temp_app/core/data/token.dart';
-import 'package:temp_app/core/dio/errors/error_unwrapper.dart';
-import 'package:temp_app/core/servises/session_service.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/core/data/session.dart';
+import 'package:bsr/core/data/token.dart';
+import 'package:bsr/core/dio/errors/error_unwrapper.dart';
+import 'package:bsr/core/servises/session_service.dart';
+import 'package:bsr/utils/logger.dart';
 
 class SessionServiceImpl with ErrorUnWrapper implements SessionService {
   final Dio dio;

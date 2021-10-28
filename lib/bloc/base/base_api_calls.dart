@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/core/dio/errors/dio_errors.dart';
-import 'package:temp_app/utils/check_connection.dart';
+import 'package:bsr/core/dio/errors/dio_errors.dart';
+import 'package:bsr/utils/check_connection.dart';
 
 import 'base_state.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:temp_app/utils/extensions.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/utils/extensions.dart';
+import 'package:bsr/utils/logger.dart';
 
 import 'cell.dart';
 

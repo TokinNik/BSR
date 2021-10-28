@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/bloc/global/global_bloc.dart';
-import 'package:temp_app/generated/l10n.dart';
-import 'package:temp_app/ui/base/base_page.dart';
+import 'package:bsr/bloc/global/global_bloc.dart';
+import 'package:bsr/generated/l10n.dart';
+import 'package:bsr/ui/base/base_page.dart';
 
 GlobalBloc _globalBloc(context) => BlocProvider.of<GlobalBloc>(context);
 

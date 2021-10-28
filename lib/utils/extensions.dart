@@ -1,4 +1,4 @@
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/utils/logger.dart';
 
 extension IterableExtension<T> on Iterable<T> {
   printAll() {

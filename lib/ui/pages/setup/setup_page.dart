@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/bloc/setup/setup_cubit.dart';
-import 'package:temp_app/core/game_logic/game_logic.dart';
-import 'package:temp_app/core/game_logic/game_module.dart';
-import 'package:temp_app/core/game_logic/game_settings.dart';
-import 'package:temp_app/core/game_logic/setup_module/setup_module_impl.dart';
-import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/ui/pages/game/single_game_page.dart';
+import 'package:bsr/bloc/setup/setup_cubit.dart';
+import 'package:bsr/core/game_logic/game_logic.dart';
+import 'package:bsr/core/game_logic/game_module.dart';
+import 'package:bsr/core/game_logic/game_settings.dart';
+import 'package:bsr/core/game_logic/setup_module/setup_module_impl.dart';
+import 'package:bsr/ui/base/base_page.dart';
+import 'package:bsr/ui/pages/game/single_game_page.dart';
 
 import 'setup_field_page.dart';
 

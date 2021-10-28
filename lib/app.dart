@@ -1,11 +1,13 @@
+import 'package:bsr/core/data/preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:temp_app/bloc/global/global_bloc.dart';
-import 'package:temp_app/ui/pages/temp_login_page.dart';
-import 'package:temp_app/ui/pages/temp_logout_page.dart';
+import 'package:bsr/bloc/global/global_bloc.dart';
+import 'package:bsr/ui/pages/login_page.dart';
+import 'package:bsr/ui/pages/main_menu_page.dart';
 
+import 'di/dependencies.dart';
 import 'generated/l10n.dart';
 
 GlobalBloc globalBloc(context) => BlocProvider.of<GlobalBloc>(context);
@@ -21,7 +23,8 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    _globalBloc = GlobalBloc();
+    _globalBloc = GlobalBloc(getIt.get());
+    _globalBloc.add(GetPreferencesEvent());
   }
 
   @override
@@ -37,19 +40,25 @@ class _AppState extends State<App> {
       child: BlocBuilder<GlobalBloc, GlobalState>(
         bloc: _globalBloc,
         builder: (context, state) {
-          return MaterialApp(
-            theme: ThemeData.dark(),
-            localizationsDelegates: [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            locale: Locale('en', ''),
-            //TODO: change locale if need
-            home: _buildPage(state),
-          );
+          return state.appState == AppState.SPLASH
+              ? Container(
+                  child: CircularProgressIndicator(),
+                )
+              : MaterialApp(
+                  theme: ThemeData.dark(),
+                  localizationsDelegates: [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                  ],
+                  supportedLocales: S.delegate.supportedLocales,
+                  locale: Locale.fromSubtags(
+                    languageCode:
+                        state.preferences?.locale ?? "en",
+                  ),
+                  home: _buildPage(state),
+                );
         },
       ),
     );
@@ -58,10 +67,15 @@ class _AppState extends State<App> {
   Widget _buildPage(GlobalState state) {
     switch (state.appState) {
       case AppState.LOG_IN:
-        return TempLoginPage();
+        return MainMenuPage();
         break;
       case AppState.LOG_OUT:
-        return TempLogoutPage();
+        return LoginPage();
+        break;
+      case AppState.SPLASH:
+        return Container(
+          child: CircularProgressIndicator(),
+        );
         break;
     }
     return Center(

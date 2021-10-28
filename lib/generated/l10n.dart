@@ -35,6 +35,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `en`
+  String get _locale {
+    return Intl.message(
+      'en',
+      name: '_locale',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `LogOut`
   String get log_out {
     return Intl.message(
@@ -95,6 +105,16 @@ class S {
     return Intl.message(
       'Change locale',
       name: 'change_locale',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Gam`
+  String get new_game {
+    return Intl.message(
+      'New Gam',
+      name: 'new_game',
       desc: '',
       args: [],
     );

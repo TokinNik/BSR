@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:temp_app/bloc/base/bloc_logging.dart';
-import 'package:temp_app/di/dependencies.dart';
+import 'package:bsr/bloc/base/bloc_logging.dart';
+import 'package:bsr/di/dependencies.dart';
 
 abstract class Environment {
   static const bool _isProd = false;

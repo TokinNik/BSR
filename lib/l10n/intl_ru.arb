@@ -1,9 +1,10 @@
 {
+  "_locale": "ru",
   "log_out": "Выход",
   "log_in": "Вход",
   "next_page": "След.страница",
   "temp_next_rout_page":"След. {num}",
   "number": "{count, plural, one{{count} страница} two{{count} страницы} few{{count} страницы} many{{count} страниц} other{{count} ???}}",
-  "change_locale" : "Изменить язык"
-
+  "change_locale" : "Изменить язык",
+  "new_game": "Новая Игра"
 }

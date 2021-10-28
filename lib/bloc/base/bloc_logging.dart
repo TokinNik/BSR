@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/utils/logger.dart';
 
 class LoggingBlocObserver implements BlocObserver {
   LoggingBlocObserver();

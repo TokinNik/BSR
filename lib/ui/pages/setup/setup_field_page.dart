@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:temp_app/core/game_logic/cell.dart';
-import 'package:temp_app/core/game_logic/game_settings.dart';
-import 'package:temp_app/core/game_logic/setup_module/setup_module.dart';
-import 'package:temp_app/ui/base/base_page.dart';
-import 'package:temp_app/ui/widgets/draggable_with_feedback.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/core/game_logic/cell.dart';
+import 'package:bsr/core/game_logic/game_settings.dart';
+import 'package:bsr/core/game_logic/setup_module/setup_module.dart';
+import 'package:bsr/ui/base/base_page.dart';
+import 'package:bsr/ui/widgets/draggable_with_feedback.dart';
+import 'package:bsr/utils/logger.dart';
 
 class SetupFieldPage extends BasePage {
   final SetupModule setupModule;

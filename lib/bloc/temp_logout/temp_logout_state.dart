@@ -1,12 +1,12 @@
 part of 'temp_logout_cubit.dart';
 
-class TempLogoutState implements BlocState {
+class LoginState implements BlocState {
   bool isSuccessful;
   bool isLoading;
   Exception error;
   bool someVar;
 
-  TempLogoutState({
+  LoginState({
     this.isSuccessful = false,
     this.isLoading = false,
     this.error,
@@ -14,13 +14,13 @@ class TempLogoutState implements BlocState {
   });
 
   @override
-  TempLogoutState copyWith({
+  LoginState copyWith({
     bool isSuccessful,
     bool isLoading,
     Exception error,
     bool someVar,
   }) {
-    return new TempLogoutState(
+    return new LoginState(
       isSuccessful: isSuccessful ?? this.isSuccessful,
       isLoading: isLoading ?? this.isLoading,
       error: error,

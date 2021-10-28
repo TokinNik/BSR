@@ -1,5 +1,5 @@
-import 'package:temp_app/core/game_logic/setup_module/setup_module.dart';
-import 'package:temp_app/core/game_logic/setup_module/setup_module_impl.dart';
+import 'package:bsr/core/game_logic/setup_module/setup_module.dart';
+import 'package:bsr/core/game_logic/setup_module/setup_module_impl.dart';
 
 import 'cell.dart';
 import 'game_module.dart';

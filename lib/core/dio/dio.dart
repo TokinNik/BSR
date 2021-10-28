@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:temp_app/constants/environment.dart';
-import 'package:temp_app/core/servises/session_service.dart';
-import 'package:temp_app/utils/logger.dart';
+import 'package:bsr/constants/environment.dart';
+import 'package:bsr/core/servises/session_service.dart';
+import 'package:bsr/utils/logger.dart';
 
 import 'interceptors/check_errors_interceptor.dart';
 import 'interceptors/check_token_interceptor.dart';

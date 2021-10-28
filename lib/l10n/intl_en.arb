@@ -1,9 +1,11 @@
 {
+  "_locale": "en",
   "log_out": "LogOut",
   "log_in": "LogIn",
   "next_page": "NextPage",
   "temp_next_rout_page":"Temp Next Rout Page {num}",
   "number": "{count, plural, one{one} two{two} few{{count} page} many{{count}mm} other{{count} ???}}",
-  "change_locale" : "Change locale"
+  "change_locale" : "Change locale",
+  "new_game": "New Gam"
 
 }
