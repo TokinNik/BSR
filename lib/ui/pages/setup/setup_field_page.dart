@@ -23,10 +23,10 @@ class SetupFieldPage extends BasePage {
 
 class _SetupFieldPageState extends State<BaseStatefulWidget> {
   static const double DEF_CELL_SIZE = 30;
-  static const double DEF_CELL_PADDING = 1;
+  static const double DEF_CELL_PADDING = 0;
   static const int DEFAULT_DRAG_ID = -2;
 
-  var cellSize = DEF_CELL_SIZE;//todo move to GameSettings?
+  var cellSize = DEF_CELL_SIZE; //todo move to GameSettings?
 
   final SetupModule setupModule;
 
@@ -103,7 +103,7 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
   }) {
     return Column(
       children: [
-        !isMainBox//todo create new widget for MainBox
+        !isMainBox //todo create new widget for MainBox
             ? SizedBox.shrink()
             : Text(
                 "[${isMainBox ? setupModule.unitSettings.unitByLocaleIdOrNull(data.unitScheme.localId)?.countOnField : ""}/${data.unitScheme.maxCount}]"),
@@ -143,7 +143,7 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
                         height: cellSize,
                         child: Center(
                           child: Text(
-                            "${data.unitScheme.size}(${data.id})[${data.anchor}]",
+                            "(${data.unitScheme.size})",
                           ),
                         ),
                       ),
@@ -151,12 +151,15 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
                   (isDragStarted && dragStartedId == data.id && !isMainBox)
                       ? SizedBox.shrink()
                       : Container(
-                          color: data.unitScheme.primaryColor,
+                          decoration: BoxDecoration(
+                            color: data.unitScheme.primaryColor,
+                            border: Border.all(color: Colors.black),
+                          ),
                           width: cellSize,
                           height: cellSize,
                           child: Center(
                             child: Text(
-                              "(${data.id})",
+                              "(${data.unitScheme.size})",
                             ),
                           ),
                         ),
@@ -242,7 +245,7 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
               type: MaterialType.transparency,
               child: Center(
                 child: Text(
-                  "(${data.id})",
+                  "(${data.unitScheme.size})",
                 ),
               ),
             ),
@@ -273,7 +276,10 @@ class _SetupFieldPageState extends State<BaseStatefulWidget> {
           DragTarget<Cell>(
             builder: (c, candidateData, rejectedData) {
               return Container(
-                color: Colors.green,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  border: Border.all(color: Colors.black),
+                ),
                 width: cellSize,
                 height: cellSize,
                 child: Center(

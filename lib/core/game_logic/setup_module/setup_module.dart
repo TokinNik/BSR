@@ -21,7 +21,9 @@ abstract class SetupModule {
 
   bool get isSetupMayDone;
 
-  initField() {}
+  initField();
+
+  clean();
 
   bool setData(
     int x,

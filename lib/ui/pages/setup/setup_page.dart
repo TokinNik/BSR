@@ -26,7 +26,10 @@ class SetupPage extends BasePage<SetupCubit> {
 }
 
 class _SetupState extends BaseState<SetupState> {
+  final int playersCount = 2;
   GameLogic gameLogic;
+  int currentPlayer = 1;
+  bool isSwitchSetupVisible = false;
 
   @override
   void blocListener(SetupState state) {
@@ -53,26 +56,58 @@ class _SetupState extends BaseState<SetupState> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
         children: [
-          SetupFieldPage(
-            gameLogic.setupModule,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Player ${currentPlayer} setup"),
+              SizedBox(height: 24),
+              SetupFieldPage(
+                gameLogic.setupModule,
+              ),
+              SizedBox(height: 24),
+              TextButton(
+                onPressed: () {
+                  if (true || gameLogic.setupModule.isSetupMayDone) {
+                    //todo remove "true"
+                    gameLogic.endSetup(currentPlayer - 1);
+                    currentPlayer++;
+                    if (currentPlayer > playersCount) {
+                      Navigator.of(context).pushReplacement(SingleGamePage.route(gameLogic));
+                    } else {
+                      setState(() {
+                        gameLogic.setupModule.clean();
+                        isSwitchSetupVisible = true;
+                      });
+                    }
+                    //gameLogic.endSetupEnemy();
+                  } else {
+                    //todo show hint
+                  }
+                },
+                child: Text("Finish setup"),
+              ),
+            ],
           ),
-          SizedBox(height: 24),
-          TextButton(
-            onPressed: () {
-              if (!gameLogic.setupModule.isSetupMayDone) {//todo remove "!"
-                gameLogic.endSetupMain();
-                gameLogic.endSetupEnemy();
-                Navigator.of(context).push(SingleGamePage.route(gameLogic));
-              } else {
-                //todo show hint
-              }
-            },
-            child: Text("Finish setup"),
-          ),
+          isSwitchSetupVisible ? _buildSwitchSetupWidget() : SizedBox.shrink(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSwitchSetupWidget() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSwitchSetupVisible = false;
+        });
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.grey,
+        child: Center(child: Text("Tap to start setup")),
       ),
     );
   }

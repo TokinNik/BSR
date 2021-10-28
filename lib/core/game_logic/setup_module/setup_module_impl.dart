@@ -22,7 +22,9 @@ class SetupModuleImpl extends SetupModule {
 
   List<List<Cell>> get field => _field;
 
-  bool get isSetupMayDone => unitSettings.unitsScheme.firstWhereOrNull((e) => !e.isMaxCountOnField) == null;
+  bool get isSetupMayDone =>
+      unitSettings.unitsScheme.firstWhereOrNull((e) => !e.isMaxCountOnField) ==
+      null;
 
   @override
   initField() {
@@ -37,6 +39,16 @@ class SetupModuleImpl extends SetupModule {
       }
       _field.add(row);
     }
+  }
+
+  @override
+  clean() {
+    _field.clear();
+    _counter = 0;
+    unitSettings.unitsScheme.forEach((element) {
+      element.countOnField = 0;
+    });
+    initField();
   }
 
   @override
@@ -313,10 +325,10 @@ class SetupModuleImpl extends SetupModule {
     if (cell.unitScheme.isCrossing && cell.unitScheme.isNotEmpty) {
       return true;
     }
-    var result = true;
     logD(
         "CHECK_ID ${_field.map((e) => e.map((e) => "${e.x}:${e.y} = ${e.id}").toList()).toList()}");
-    SetupModule.CELLS_AROUND_X.forEachIndexed((px, i) {
+    for (var i = 0; i < SetupModule.CELLS_AROUND_X.length; i++) {
+      var px = SetupModule.CELLS_AROUND_X[i];
       var posX = x + px;
       var posY = y + SetupModule.CELLS_AROUND_Y[i];
       var isPositionInBounds =
@@ -326,12 +338,12 @@ class SetupModuleImpl extends SetupModule {
         var isClearCell = _field[posX][posY].unitScheme.isCrossing ||
             _field[posX][posY].id == cell.id;
         if (!isClearCell) {
-          result = false;
+          return false;
         }
       }
-    });
-    logD("CHECK_ID_R $result");
-    return result;
+    }
+    logD("CHECK_ID_R true");
+    return true;
   }
 
   bool _checkAllEmptyRight(int x, int y, int length, Cell cell) {

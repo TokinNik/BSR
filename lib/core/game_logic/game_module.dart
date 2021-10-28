@@ -46,6 +46,9 @@ class GameModule {
     int x,
     int y,
   ) {
+    if(currentEnemy.mainField[x][y].isErrorHighlighted){
+      return null;
+    }
     onGameStateChanged?.call(GameState.CHECK);
     var result = currentEnemy.attackOnCell(x, y);
     lastTurnResult = result;

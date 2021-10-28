@@ -7,7 +7,6 @@ import 'package:bsr/bloc/global/global_bloc.dart';
 import 'package:bsr/generated/l10n.dart';
 import 'package:bsr/ui/base/base_page.dart';
 import 'package:bsr/ui/pages/setup/setup_page.dart';
-import 'package:bsr/ui/pages/temp_next_rout_page.dart';
 import 'package:bsr/utils/extensions.dart';
 
 class MainMenuPage extends BasePage {

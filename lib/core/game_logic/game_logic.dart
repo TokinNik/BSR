@@ -16,14 +16,16 @@ class GameLogic {
     this.gameSettings,
   });
 
-  endSetupMain() {
+  endSetup(int id) {
+    List<List<Cell>> copyField = [];
+    copyField.addAll(setupModule.field);
     gameModule.players.add(Player(
-      mainField: setupModule.field,
-      playerId: 0,
+      mainField: copyField,
+      playerId: id,
     ));
   }
 
-  endSetupEnemy() {
+  endSetupTest() {
     //todo
     var tempSetup = SetupModuleImpl(
       maxX: 11,

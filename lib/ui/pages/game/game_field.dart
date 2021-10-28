@@ -15,7 +15,7 @@ class GameField extends BasePage {
 
 class _GameFieldState extends State<BaseStatefulWidget> {
   static const double DEF_CELL_SIZE = 30;
-  static const double DEF_CELL_PADDING = 1;
+  static const double DEF_CELL_PADDING = 0;
 
   _GameFieldState(this.gameLogic);
 
@@ -23,15 +23,11 @@ class _GameFieldState extends State<BaseStatefulWidget> {
 
   var cellSize = DEF_CELL_SIZE; //todo move to GameSettings?
 
-  bool isMainField = true;
+  bool isMainOnFront = false;
 
   bool isStartVisible = true;
   bool isEndVisible = false;
   bool isSwitchVisible = false;
-
-  List<List<Cell>> get getSourceField => isMainField
-      ? gameLogic.gameModule.currentPlayer.mainField
-      : gameLogic.gameModule.currentEnemy.mainField;
 
   onGameGsateChangedListener(GameState gameState) {
     logD(
@@ -91,22 +87,27 @@ class _GameFieldState extends State<BaseStatefulWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildCells(),
+          SizedBox(height: 24),
+          Text("Player ${gameLogic.gameModule.currentPlayerId + 1} turn"),
+          SizedBox(height: 24),
+          _buildCells(!isMainOnFront),
+          SizedBox(height: 8),
+          _buildCells(isMainOnFront),
           SizedBox(height: 24),
           TextButton(
             onPressed: () {
               setState(() {
-                isMainField = !isMainField;
+                isMainOnFront = !isMainOnFront;
               });
             },
-            child: Text("Switch field to ${isMainField ? "Enemy" : "Main"}"),
+            child: Text("Switch field to ${isMainOnFront ? "Enemy" : "Main"}"),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCells() {
+  Widget _buildCells(bool isMainField) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -115,15 +116,17 @@ class _GameFieldState extends State<BaseStatefulWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               for (var j = 0; j < gameLogic.setupModule.maxY; j++)
-                _buildCell(i, j),
+                _buildCell(i, j, isMainField),
             ],
           )
       ],
     );
   }
 
-  Widget _buildCell(int x, int y) {
-    var unit = getSourceField[x][y];
+  Widget _buildCell(int x, int y, bool isMainField) {
+    var unit = isMainField
+        ? gameLogic.gameModule.currentPlayer.mainField[x][y]
+        : gameLogic.gameModule.currentEnemy.mainField[x][y];
     return Padding(
       padding: const EdgeInsets.all(DEF_CELL_PADDING),
       child: GestureDetector(
@@ -137,16 +140,29 @@ class _GameFieldState extends State<BaseStatefulWidget> {
           });
         },
         child: Container(
-          color: isMainField
-              ? unit.unitScheme.primaryColor
-              : (unit.isErrorHighlighted && unit.unitScheme.isNotEmpty
-                  ? Colors.red
-                  : Colors.green), //todo move colors in const
-          width: cellSize,
-          height: cellSize,
+          decoration: BoxDecoration(
+            color: isMainField
+                ? (unit.isErrorHighlighted
+                    ? (unit.unitScheme.isNotEmpty
+                        ? Colors.red
+                        : unit.unitScheme.primaryColor)
+                    : unit.unitScheme.primaryColor)
+                : (unit.isErrorHighlighted && unit.unitScheme.isNotEmpty
+                    ? Colors.red
+                    : Colors.green),
+            border: Border.all(color: Colors.black),
+          ),
+          //todo move colors in const
+          width: isMainField
+              ? (isMainOnFront ? cellSize : cellSize * 0.5)
+              : (!isMainOnFront ? cellSize : cellSize * 0.5),
+          //todo move scale factor in const
+          height: isMainField
+              ? (isMainOnFront ? cellSize : cellSize * 0.5)
+              : (!isMainOnFront ? cellSize : cellSize * 0.5),
           child: Center(
             child: Text(
-              "${isMainField ? unit.unitsAround.toString() : ((unit.isErrorHighlighted ? unit.unitsAround.toString() : ""))}",
+              "${isMainField ? (unit.isErrorHighlighted ? "*" : "") : ((unit.isErrorHighlighted ? (unit.unitScheme.isNotEmpty ? "*" : unit.unitsAround.toString()) : ""))}",
             ),
           ),
         ),
@@ -165,7 +181,7 @@ class _GameFieldState extends State<BaseStatefulWidget> {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.grey.withAlpha(150),
+        color: Colors.grey,
         child: Center(child: Text("Tap to Start")),
       ),
     );
@@ -181,11 +197,13 @@ class _GameFieldState extends State<BaseStatefulWidget> {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.grey.withAlpha(150),
-        child: Center(child: Column(
+        color: Colors.grey,
+        child: Center(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Result: ${gameLogic.gameModule.lastTurnResult.getFormattedString()}"),
+            Text(
+                "Result: ${gameLogic.gameModule.lastTurnResult.getFormattedString()}"),
             SizedBox(height: 24),
             Text("Tap to Switch"),
           ],
@@ -205,8 +223,16 @@ class _GameFieldState extends State<BaseStatefulWidget> {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        color: Colors.grey.withAlpha(150),
-        child: Center(child: Text("Tap to End")),
+        color: Colors.grey,
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Player ${gameLogic.gameModule.currentPlayerId + 1} Win!!!"),
+            SizedBox(height: 24),
+            Text("Tap to end game"),
+          ],
+        )),
       ),
     );
   }
@@ -215,7 +241,7 @@ class _GameFieldState extends State<BaseStatefulWidget> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: Colors.grey.withAlpha(150),
+      color: Colors.grey,
       child: Center(child: Text("Check in progress")),
     );
   }
