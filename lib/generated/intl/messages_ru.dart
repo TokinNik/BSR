@@ -7,7 +7,8 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,19 +20,20 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
-  static m0(count) => "${Intl.plural(count, one: '${count} страница', two: '${count} страницы', few: '${count} страницы', many: '${count} страниц', other: '${count} ???')}";
+  static String m0(count) =>
+      "${Intl.plural(count, one: '${count} страница', two: '${count} страницы', few: '${count} страницы', many: '${count} страниц', other: '${count} ???')}";
 
-  static m1(num) => "След. ${num}";
+  static String m1(num) => "След. ${num}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "_locale" : MessageLookupByLibrary.simpleMessage("ru"),
-    "change_locale" : MessageLookupByLibrary.simpleMessage("Изменить язык"),
-    "log_in" : MessageLookupByLibrary.simpleMessage("Вход"),
-    "log_out" : MessageLookupByLibrary.simpleMessage("Выход"),
-    "new_game" : MessageLookupByLibrary.simpleMessage("Новая Игра"),
-    "next_page" : MessageLookupByLibrary.simpleMessage("След.страница"),
-    "number" : m0,
-    "temp_next_rout_page" : m1
-  };
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "_locale": MessageLookupByLibrary.simpleMessage("ru"),
+        "change_locale": MessageLookupByLibrary.simpleMessage("Изменить язык"),
+        "log_in": MessageLookupByLibrary.simpleMessage("Вход"),
+        "log_out": MessageLookupByLibrary.simpleMessage("Выход"),
+        "new_game": MessageLookupByLibrary.simpleMessage("Новая Игра"),
+        "next_page": MessageLookupByLibrary.simpleMessage("След.страница"),
+        "number": m0,
+        "temp_next_rout_page": m1
+      };
 }

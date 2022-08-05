@@ -18,7 +18,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  GlobalBloc _globalBloc;
+  late GlobalBloc _globalBloc;
 
   @override
   void initState() {

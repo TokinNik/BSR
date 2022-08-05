@@ -5,7 +5,8 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.17.6 <3.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
@@ -14,38 +15,52 @@ dependencies:
     sdk: flutter
 
   # Bloc
-  cupertino_icons: ^1.0.3
-  flutter_bloc: ^7.3.0
+  ## Presentation (https://pub.dev/packages/bloc / https://pub.dev/packages/flutter_bloc)
+  bloc: ^8.0.3
+  flutter_bloc: ^8.0.1
   equatable: ^2.0.3
 
   # Network
-  dio: ^4.0.0
-  connectivity: ^3.0.6
+  ### Client https://pub.dev/packages/dio
+  dio: ^4.0.6
+  ### https://pub:dev/packages/connectivity_plus
+  connectivity_plus: ^2.3.6
 
   # Data storage
-  shared_preferences: ^2.0.6
-  flutter_secure_storage: ^4.2.1
+  ### https://pub.dev/packages/shared_preferences
+  shared_preferences: ^2.0.15
+  ### https://pub.dev/packages/flutter_secure_storage
+  flutter_secure_storage: ^5.1.0
 
-  # DI
-  get_it: ^7.2.0
+  # DI(Service Locator) https://pub.dev/packages/get_it
+  get_it: 7.2.0
 
   # Utils
-  collection: ^1.15.0
-  logging: ^1.0.2
+  ### https://pub.dev/packages/collection
+  collection: ^1.16.0
+  ### https://pub.dev/packages/logger
   logger: ^1.1.0
-  json_annotation: ^3.1.1
 
-  # UI
-  flutter_svg: ^0.22.0
+  ### https://pub.dev/packages/json_annotation
+  json_annotation: ^4.6.0
+
+  #UI
+  ### https://pub.dev/packages/flutter_svg
+  flutter_svg: ^1.1.1+1
+  ### https://pub.dev/packages/cupertino_icons
+  cupertino_icons: ^1.0.5
 
   #Locolization
+  ### https://pub.dev/packages/intl
   intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.0.0
-  json_serializable: ^3.5.1
+  ### https://pub.dev/packages/build_runner
+  build_runner: ^2.2.0
+  ### https://pub.dev/packages/json_serializable
+  json_serializable: ^6.3.1
 
 flutter:
   uses-material-design: true
@@ -54,12 +69,12 @@ flutter:
     - assets/svg/
 
 flutter_intl:
-  enabled: true # Required. Must be set to true to activate the package. Default: false
-  class_name: S # Optional. Sets the name for the generated localization class. Default: S
-  main_locale: en # Optional. Sets the main locale used for generating localization files. Provided value should consist of language code and optional script and country codes separated with underscore (e.g. 'en', 'en_GB', 'zh_Hans', 'zh_Hans_CN'). Default: en
-  arb_dir: lib/l10n # Optional. Sets the directory of your ARB resource files. Provided value should be a valid path on your system. Default: lib/l10n
-  output_dir: lib/generated # Optional. Sets the directory of generated localization files. Provided value should be a valid path on your system. Default: lib/generated
-  use_deferred_loading: false # Optional. Must be set to true to generate localization code that is loaded with deferred loading. Default: false
+  enabled: true
+  class_name: S
+  main_locale: en
+  arb_dir: lib/l10n
+  output_dir: lib/generated
+  use_deferred_loading: false
 
 Default: false
 
